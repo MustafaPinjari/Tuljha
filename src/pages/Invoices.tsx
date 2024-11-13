@@ -21,7 +21,7 @@ function Invoices() {
     e.preventDefault();
     const order = orders?.find(o => o.id === Number(selectedOrder));
     if (!order) return;
-
+  
     try {
       await db.invoices.add({
         organizationId: order.organizationId,
@@ -34,9 +34,11 @@ function Invoices() {
       setStatus('pending');
       toast.success('Invoice generated successfully');
     } catch (error) {
-      toast.error('Failed to generate invoice');
+      console.error("Invoice generation failed:", error);  // Log error for debugging
+      toast.error('Failed to generate invoice');  // You can include more error information here if needed
     }
   };
+  
 
   const handleShare = (type: 'email' | 'whatsapp', invoice: Invoice) => {
     const org = organizations?.find(o => o.id === invoice.organizationId);
